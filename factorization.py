@@ -1,21 +1,25 @@
 #/usr/bin/env python3
 import sys
 
+def factorize(n):
+    factors = []
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            factors.append((i, n // i))
+    return factors
 
-def primef(n):
-    if n <= 3:
-        return int(n)
-    if n % 2 == 0:
-        return 2
-    elif n % 3 == 0:
-        return 3
-    else:
-        for i in range(5, int((n)**0.5) + 1, 6):
-            if n % i == 0:
-                return int(i)
-            if n % (i + 2) == 0:
-                return primef(n/(i+2))
-    return int(n)
+def main(file_path):
+    with open(file_path, 'r') as file:
+        for line in file:
+            number = int(line.strip())
+            factorizations = factorize(number)
+            for factorization in factorizations:
+                print(f"{number}={factorization[0]}*{factorization[1]}")
 
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: python script.py <file>")
+        sys.exit(1)
+    file_path = sys.argv[1]
+    main(file_path)
 
-print(primef(int(sys.argv[1])))
